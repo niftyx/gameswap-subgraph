@@ -1,0 +1,37 @@
+specVersion: 0.0.2
+description: gameswap
+repository: https://github.com/shroom-finance/gameswap-subgraph
+schema:
+  file: ./schema.graphql
+
+dataSources:
+  - kind: ethereum/contract
+    name: Test721
+    network: "{{network}}"
+    source:
+      abi: Test721
+      address: "{{address_erc721}}"
+      startBlock: {{startBlock_erc721}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      file: ./src/mappings/Test721.ts
+      entities:
+        - Account
+        - Asset
+        - AssetHistory
+        - Order
+        - Token
+      abis:
+        - name: Test721
+          file: ./abis/Test721.json
+        - name: IERC721
+          file: ./abis/IERC721.json
+        - name: ERC721
+          file: ./abis/ERC721.json
+      eventHandlers:
+        - event: SetTokenURI(uint256,string)
+          handler: handleTokenURISet
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer

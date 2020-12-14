@@ -1,0 +1,7 @@
+{
+    "network": "mainnet",
+    "address_gswap": "0xaac41ec512808d64625576eddd580e7ea40ef8b2",
+    "startBlock_gswap": 11420560,
+    "address_erc721": "0x947161a5d422f95db832121b2946db5a616acf47",
+    "startBlock_erc721": 22511370
+}

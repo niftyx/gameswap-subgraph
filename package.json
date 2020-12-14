@@ -1,0 +1,60 @@
+{
+  "name": "gameswap-subgraph",
+  "version": "1.0.0",
+  "description": "Subgraph for gameswap",
+  "scripts": {
+    "test": "yarn test",
+    "codegen": "node ./scripts/codegen-prepare.js --input=./contracts/build/contracts --output=./abis && yarn graph codegen",
+    "build": "yarn graph build",
+    "prepare:local": "mustache config/development.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:kovan": "mustache config/kovan.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "create:local": "yarn graph create liaojikunwork/gameswap-subgraph --node http://127.0.0.1:8020",
+    "deploy:local": "yarn graph deploy liaojikunwork/gameswap-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
+    "deploy:kovan": "yarn graph deploy liaojikunwork/gameswapsubgraphkovan --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token ab245ab70624402a9eb90c39badaae67",
+    "lint": "yarn run eslint './src/**/*.{ts,tsx}' --fix",
+    "deploy:mainnet": "yarn graph deploy liaojikunwork/gameswapsubgraph --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token ab245ab70624402a9eb90c39badaae67"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shroom-finance/gameswap-subgraph.git"
+  },
+  "keywords": [
+    "gameswap",
+    "subgraph",
+    "thegraph"
+  ],
+  "author": "Jikun Liao (liaojikundever@gmail.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shroom-finance/gameswap-subgraph/issues"
+  },
+  "homepage": "https://github.com/shroom-finance/gameswap-subgraph#readme",
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.18.0",
+    "@graphprotocol/graph-ts": "^0.18.1",
+    "@typescript-eslint/eslint-plugin": "^3.5.0",
+    "@typescript-eslint/parser": "^3.5.0",
+    "chalk": "^4.1.0",
+    "eslint": "^7.3.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.7",
+    "mustache": "^4.0.1",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.5",
+    "yargs": "^15.4.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js,json,graphql}": [
+      "yarn run lint",
+      "git add"
+    ]
+  }
+}

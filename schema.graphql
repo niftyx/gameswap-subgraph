@@ -1,0 +1,85 @@
+type Token @entity {
+  id: ID!
+
+  """
+  Token address
+  """
+  address: Bytes!
+
+  """
+  Token name
+  """
+  name: String!
+
+  """
+  Token symbol
+  """
+  symbol: String!
+
+  """
+  Total supply of the token
+  """
+  totalSupply: BigInt!
+
+  """
+  Quantity of the token that has been minted
+  """
+  totalMinted: BigInt!
+
+  """
+  Quantity of the token that has been burned
+  """
+  totalBurned: BigInt!
+
+  assets: [Asset!] @derivedFrom(field: "token")
+
+  accounts: [Account!] @derivedFrom(field: "token")
+
+  orders: [Order!] @derivedFrom(field: "token")
+
+  createTimeStamp: BigInt!
+}
+
+type Asset @entity {
+  id: ID!
+  assetId: BigInt!
+  assetURL: String
+  currentOwner: Account!
+  history: [AssetHistory!] @derivedFrom(field: "asset")
+  token: Token!
+  orders: [Order!] @derivedFrom(field: "asset")
+  createTimeStamp: BigInt!
+  updateTimeStamp: BigInt!
+}
+
+type AssetHistory @entity {
+  id: ID!
+  owner: Account!
+  asset: Asset!
+  timestamp: BigInt!
+}
+
+type Account @entity {
+  id: ID!
+  address: Bytes!
+  assets: [Asset!] @derivedFrom(field: "currentOwner")
+  assetCount: BigInt!
+  orders: [Order!] @derivedFrom(field: "owner")
+  token: Token!
+  createTimeStamp: BigInt!
+}
+
+enum OrderStatus {
+  Sale
+  Cancelled
+  Success
+}
+
+type Order @entity {
+  id: ID!
+  token: Token!
+  owner: Account!
+  status: OrderStatus!
+  asset: Asset!
+  createTimeStamp: BigInt!
+}
