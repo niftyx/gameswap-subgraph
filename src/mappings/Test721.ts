@@ -1,11 +1,9 @@
 import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
 import { Token } from "../../generated/schema";
 import { Transfer, SetTokenURI } from "../../generated/Test721/Test721";
-import { mapOrderStatus, OrderStatus } from "../enums";
 import { getOrCreateAccount, getOrCreateZeroAccount } from "../models/Account";
 import { getOrCreateAsset, loadAsset } from "../models/Asset";
 import { getOrCreateAssetHistory } from "../models/AssetHistory";
-import { getOrCreateOrder } from "../models/Order";
 import { getOrCreateToken } from "../models/Token";
 import { ONE } from "../utils/number";
 import { ZERO_ADDRESS } from "../utils/token";
@@ -75,34 +73,6 @@ function handleNormalTransfer(token: Token, event: Transfer): void {
   );
   if (asset) {
     getOrCreateAssetHistory(toAccount, asset, event.block.timestamp);
-
-    if (event.params.to == event.address) {
-      // new sale
-      getOrCreateOrder(token, fromAccount, asset, event.block.timestamp);
-    } else if (event.params.from == event.address) {
-      // cancel or success sale
-      let order = getOrCreateOrder(
-        token,
-        fromAccount,
-        asset,
-        event.block.timestamp
-      );
-      let orderOwner = getOrCreateAccount(
-        new Bytes(Address.fromHexString(order.owner).toI32()),
-        token,
-        event.block.timestamp
-      );
-
-      if (orderOwner.address == toAccount.address) {
-        // cancel
-        order.status = mapOrderStatus(OrderStatus.Cancelled);
-        order.save();
-      } else {
-        // success
-        order.status = mapOrderStatus(OrderStatus.Success);
-        order.save();
-      }
-    }
 
     asset.updateTimeStamp = event.block.timestamp;
     asset.currentOwner = toAccount.id;

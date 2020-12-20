@@ -35,8 +35,6 @@ type Token @entity {
 
   accounts: [Account!] @derivedFrom(field: "token")
 
-  orders: [Order!] @derivedFrom(field: "token")
-
   createTimeStamp: BigInt!
 }
 
@@ -47,7 +45,6 @@ type Asset @entity {
   currentOwner: Account!
   history: [AssetHistory!] @derivedFrom(field: "asset")
   token: Token!
-  orders: [Order!] @derivedFrom(field: "asset")
   createTimeStamp: BigInt!
   updateTimeStamp: BigInt!
 }
@@ -64,22 +61,6 @@ type Account @entity {
   address: Bytes!
   assets: [Asset!] @derivedFrom(field: "currentOwner")
   assetCount: BigInt!
-  orders: [Order!] @derivedFrom(field: "owner")
   token: Token!
-  createTimeStamp: BigInt!
-}
-
-enum OrderStatus {
-  Sale
-  Cancelled
-  Success
-}
-
-type Order @entity {
-  id: ID!
-  token: Token!
-  owner: Account!
-  status: OrderStatus!
-  asset: Asset!
   createTimeStamp: BigInt!
 }
