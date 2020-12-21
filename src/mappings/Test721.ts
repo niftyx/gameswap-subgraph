@@ -97,8 +97,8 @@ export function handleTokenURISet(event: SetTokenURI): void {
 export function handleTransfer(event: Transfer): void {
   let token = getOrCreateToken(event.address, event.block.timestamp);
 
-  let isMint = event.params.from.toHexString() == ZERO_ADDRESS;
-  let isBurn = event.params.to.toHexString() == ZERO_ADDRESS;
+  let isMint = event.params.from.toHex() == ZERO_ADDRESS;
+  let isBurn = event.params.to.toHex() == ZERO_ADDRESS;
 
   if (isMint) {
     handleMinted(token, event);

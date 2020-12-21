@@ -4,7 +4,7 @@ import { Bytes } from "@graphprotocol/graph-ts";
 import { Asset, Token, Account } from "../../generated/schema";
 
 export function loadAsset(tokenId: BigInt): Asset {
-  let assetId = tokenId.toHexString();
+  let assetId = tokenId.toHex();
   let existingAsset = Asset.load(assetId);
 
   if (existingAsset != null) {
@@ -19,7 +19,7 @@ export function getOrCreateAsset(
   owner: Account,
   timestamp: BigInt
 ): Asset {
-  let assetId = tokenId.toHexString();
+  let assetId = tokenId.toHex();
   let existingAsset = Asset.load(assetId);
 
   if (existingAsset != null) {

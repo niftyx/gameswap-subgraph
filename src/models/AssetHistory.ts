@@ -7,7 +7,7 @@ export function getOrCreateAssetHistory(
   asset: Asset,
   timestamp: BigInt
 ): AssetHistory {
-  let historyId = owner.address.toHexString() + timestamp.toHexString();
+  let historyId = owner.address.toHex() + timestamp.toHex();
   let existingHistory = AssetHistory.load(historyId);
 
   if (existingHistory != null) {
