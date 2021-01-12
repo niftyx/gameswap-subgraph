@@ -3,5 +3,7 @@
   "address_gswap": "0xb2c7d27f78bec818391498dc4108ab782d65cd76",
   "startBlock_gswap": 22490477,
   "address_erc721": "0x254D5259539b3ec85Cd76A1931899ec7E8851dD4",
-  "startBlock_erc721": 22912222
+  "startBlock_erc721": 22912222,
+  "address_exchange": "0x4eacd0af335451709e1e7b570b8ea68edec8bc97",
+  "startBlock_exchange": 22435544
 }

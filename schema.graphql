@@ -1,3 +1,8 @@
+enum ZeroXOrderType {
+  Filled
+  Cancelled
+}
+
 type Token @entity {
   id: ID!
 
@@ -47,6 +52,7 @@ type Asset @entity {
   token: Token!
   createTimeStamp: BigInt!
   updateTimeStamp: BigInt!
+  orders: [ZeroXOrder!] @derivedFrom(field: "asset")
 }
 
 type AssetHistory @entity {
@@ -54,6 +60,7 @@ type AssetHistory @entity {
   owner: Account!
   asset: Asset!
   timestamp: BigInt!
+  txHash: Bytes!
 }
 
 type Account @entity {
@@ -63,4 +70,26 @@ type Account @entity {
   assetCount: BigInt!
   token: Token!
   createTimeStamp: BigInt!
+}
+
+type ZeroXOrder @entity {
+  asset: Asset!
+  id: ID! # orderHash (unqiue because of the salt)
+  maker: Bytes!
+  feeRecipient: Bytes!
+  makerAssetData: Bytes
+  takerAssetData: Bytes
+  makerFeeAssetData: Bytes
+  takerFeeAssetData: Bytes
+  orderHash: Bytes
+  taker: Bytes
+  sender: Bytes
+  makerAssetFilledAmount: BigInt
+  takerAssetFilledAmount: BigInt
+  makerFeePaid: BigInt
+  takerFeePaid: BigInt
+  protocolFeePaid: BigInt
+  type: ZeroXOrderType!
+  createTimeStamp: BigInt!
+  txHash: Bytes!
 }

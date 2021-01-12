@@ -1,4 +1,3 @@
-import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
 import { Token } from "../../generated/schema";
 import { Transfer, SetTokenURI } from "../../generated/Test721/Test721";
 import { getOrCreateAccount, getOrCreateZeroAccount } from "../models/Account";
@@ -31,7 +30,12 @@ function handleMinted(token: Token, event: Transfer): void {
   );
 
   // create asset history
-  getOrCreateAssetHistory(account, asset, event.block.timestamp);
+  getOrCreateAssetHistory(
+    account,
+    asset,
+    event.block.timestamp,
+    event.transaction.hash
+  );
 }
 
 function handleBurnt(token: Token, event: Transfer): void {
@@ -55,7 +59,12 @@ function handleBurnt(token: Token, event: Transfer): void {
     asset.updateTimeStamp = event.block.timestamp;
     asset.currentOwner = zeroAccount.id;
     asset.save();
-    getOrCreateAssetHistory(account, asset, event.block.timestamp);
+    getOrCreateAssetHistory(
+      account,
+      asset,
+      event.block.timestamp,
+      event.transaction.hash
+    );
   }
 }
 
@@ -72,7 +81,12 @@ function handleNormalTransfer(token: Token, event: Transfer): void {
     event.block.timestamp
   );
   if (asset) {
-    getOrCreateAssetHistory(toAccount, asset, event.block.timestamp);
+    getOrCreateAssetHistory(
+      toAccount,
+      asset,
+      event.block.timestamp,
+      event.transaction.hash
+    );
 
     asset.updateTimeStamp = event.block.timestamp;
     asset.currentOwner = toAccount.id;

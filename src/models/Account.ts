@@ -1,4 +1,4 @@
-import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
+import { BigInt, Bytes } from "@graphprotocol/graph-ts";
 import { Account, Token } from "../../generated/schema";
 import { ZERO } from "../utils/number";
 import { ZERO_ADDRESS } from "../utils/token";

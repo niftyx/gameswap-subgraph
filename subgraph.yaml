@@ -21,7 +21,6 @@ dataSources:
         - Account
         - Asset
         - AssetHistory
-        - Order
         - Token
       abis:
         - name: Test721
@@ -35,3 +34,29 @@ dataSources:
           handler: handleTokenURISet
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+
+  - kind: ethereum/contract
+    name: Exchange
+    network: "kovan"
+    source:
+      abi: Exchange
+      address: "0x4eacd0af335451709e1e7b570b8ea68edec8bc97"
+      startBlock: 22435544
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - ZeroXOrder
+        - Account
+        - Asset
+        - Token
+      abis:
+        - name: Exchange
+          file: ./abis/Exchange.json
+      eventHandlers:
+        - event: Fill(indexed address,indexed address,bytes,bytes,bytes,bytes,indexed bytes32,address,address,uint256,uint256,uint256,uint256,uint256)
+          handler: handleFill
+        - event: Cancel(indexed address,indexed address,bytes,bytes,address,indexed bytes32)
+          handler: handleCancel
+      file: ./src/mappings/ZeroXExchange.ts

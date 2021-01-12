@@ -1,6 +1,4 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts";
-
-import { Bytes } from "@graphprotocol/graph-ts";
+import { BigInt } from "@graphprotocol/graph-ts";
 import { Asset, Token, Account } from "../../generated/schema";
 
 export function loadAsset(tokenId: BigInt): Asset {
