@@ -1,6 +1,6 @@
 import { Fill, Cancel } from "../../generated/Exchange/Exchange";
 import { loadAsset } from "../models/Asset";
-import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 import { createCancelOrder, createFillOrder } from "../models/ZeroXOrder";
 
 let ERC721ADDRESS = Address.fromHexString("0x254D5259539b3ec85Cd76A1931899ec7E8851dD4");
@@ -21,15 +21,17 @@ export function handleFill(event: Fill): void {
       "0x" + makerAssetData.toHex().substr(10, 32)
     );
 
-    if (makerTokenAddress === ERC721ADDRESS) {
-      let assetIdHex = "0x" + makerAssetData.toHex().substr(42, 72);
-      let assetId = BigInt.fromI32(assetIdHex as i32);
+    //    if (makerTokenAddress === ERC721ADDRESS) {
+    let assetIdHex = "0x" + makerAssetData.toHex().substr(42, 72);
+    let assetId = BigInt.fromUnsignedBytes(
+      ByteArray.fromHexString(assetIdHex) as Bytes
+    );
 
-      let asset = loadAsset(assetId);
-      if (asset) {
-        createFillOrder(asset, event);
-      }
+    let asset = loadAsset(assetId);
+    if (asset) {
+      createFillOrder(asset, event);
     }
+    //    }
   }
 }
 
@@ -52,7 +54,9 @@ export function handleCancel(event: Cancel): void {
 
     if (makerTokenAddress === ERC721ADDRESS) {
       let assetIdHex = "0x" + makerAssetData.toHex().substr(42, 72);
-      let assetId = BigInt.fromI32(assetIdHex as i32);
+      let assetId = BigInt.fromUnsignedBytes(
+        ByteArray.fromHexString(assetIdHex) as Bytes
+      );
 
       let asset = loadAsset(assetId);
       if (asset) {
