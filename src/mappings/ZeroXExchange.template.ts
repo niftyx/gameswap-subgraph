@@ -1,54 +1,63 @@
-import { assetDataUtils } from "@0x/order-utils";
 import { Fill, Cancel } from "../../generated/Exchange/Exchange";
 import { loadAsset } from "../models/Asset";
-import { BigInt } from "@graphprotocol/graph-ts";
-import { createOrder } from "../models/ZeroXOrder";
-import { ZeroXOrderType } from "../utils/enum";
+import { Address, BigInt } from "@graphprotocol/graph-ts";
+import { createCancelOrder, createFillOrder } from "../models/ZeroXOrder";
 
-const ERC721ADDRESS = "{{address_erc721}}";
+let ERC721ADDRESS = Address.fromHexString("{{address_erc721}}");
 
 export function handleFill(event: Fill): void {
-  const {
-    params: { makerAssetData },
-  } = event;
-  try {
-    const makerAssetInfo = assetDataUtils.decodeAssetDataOrThrow(
-      makerAssetData.toString()
+  let makerAssetData = event.params.makerAssetData;
+  let takerAssetData = event.params.takerAssetData;
+
+  let makerAssetProxyId = makerAssetData.toHex().substr(0, 10);
+  let takerAssetProxyId = takerAssetData.toHex().substr(0, 10);
+
+  if (
+    makerAssetProxyId === "0x02571792" &&
+    takerAssetProxyId === "0xf47261b0"
+  ) {
+    // it's ERC721 <-> ERC20 exchange
+    let makerTokenAddress = Address.fromHexString(
+      "0x" + makerAssetData.toHex().substr(10, 32)
     );
-    if (
-      makerAssetInfo &&
-      makerAssetInfo.assetProxyId === "0x02571792" &&
-      (makerAssetInfo as any).tokenAddress === ERC721ADDRESS
-    ) {
-      // it's ERC721
-      const assetId = (makerAssetInfo as any).tokenId as BigInt;
-      const asset = loadAsset(assetId);
+
+    if (makerTokenAddress === ERC721ADDRESS) {
+      let assetIdHex = "0x" + makerAssetData.toHex().substr(42, 72);
+      let assetId = BigInt.fromI32(assetIdHex as i32);
+
+      let asset = loadAsset(assetId);
       if (asset) {
-        createOrder(asset, ZeroXOrderType.Filled, event);
+        createFillOrder(asset, event);
       }
     }
-  } catch (error) {
-    console.warn(error);
   }
 }
 
 export function handleCancel(event: Cancel): void {
-  const {
-    params: { makerAssetData },
-  } = event;
-  const makerAssetInfo = assetDataUtils.decodeAssetDataOrThrow(
-    makerAssetData.toString()
-  );
+  let makerAssetData = event.params.makerAssetData;
+  let takerAssetData = event.params.takerAssetData;
+
+  let makerAssetProxyId = makerAssetData.toHex().substr(0, 10);
+  let takerAssetProxyId = takerAssetData.toHex().substr(0, 10);
+
   if (
-    makerAssetInfo &&
-    makerAssetInfo.assetProxyId === "0x02571792" &&
-    (makerAssetInfo as any).tokenAddress === ERC721ADDRESS
+    makerAssetProxyId === "0x02571792" &&
+    takerAssetProxyId === "0xf47261b0"
   ) {
-    // it's ERC721
-    const assetId = (makerAssetInfo as any).tokenId as BigInt;
-    const asset = loadAsset(assetId);
-    if (asset) {
-      createOrder(asset, ZeroXOrderType.Filled, event);
+    // it's ERC721 <-> ERC20 exchange
+
+    let makerTokenAddress = Address.fromHexString(
+      "0x" + makerAssetData.toHex().substr(10, 32)
+    );
+
+    if (makerTokenAddress === ERC721ADDRESS) {
+      let assetIdHex = "0x" + makerAssetData.toHex().substr(42, 72);
+      let assetId = BigInt.fromI32(assetIdHex as i32);
+
+      let asset = loadAsset(assetId);
+      if (asset) {
+        createCancelOrder(asset, event);
+      }
     }
   }
 }

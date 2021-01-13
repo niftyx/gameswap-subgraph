@@ -57,7 +57,5 @@
       "git add"
     ]
   },
-  "dependencies": {
-    "@0x/order-utils": "^10.4.13"
-  }
+  "dependencies": {}
 }
