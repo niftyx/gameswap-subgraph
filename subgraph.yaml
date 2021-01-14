@@ -10,8 +10,8 @@ dataSources:
     network: "kovan"
     source:
       abi: Test721
-      address: "0x254D5259539b3ec85Cd76A1931899ec7E8851dD4"
-      startBlock: 22912222
+      address: "0xB917795F6B1107F2635df03DF1F4A97c29959DD9"
+      startBlock: 23006872
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

@@ -3,7 +3,7 @@ import { loadAsset } from "../models/Asset";
 import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
 import { createCancelOrder, createFillOrder } from "../models/ZeroXOrder";
 
-let ERC721ADDRESS = Address.fromHexString("0x254D5259539b3ec85Cd76A1931899ec7E8851dD4");
+let ERC721ADDRESS = Address.fromHexString("0xB917795F6B1107F2635df03DF1F4A97c29959DD9");
 
 export function handleFill(event: Fill): void {
   let makerAssetData = event.params.makerAssetData;
