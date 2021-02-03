@@ -5,41 +5,17 @@ enum ZeroXOrderType {
 
 type Token @entity {
   id: ID!
-
-  """
-  Token address
-  """
   address: Bytes!
-
-  """
-  Token name
-  """
   name: String!
-
-  """
-  Token symbol
-  """
   symbol: String!
-
-  """
-  Total supply of the token
-  """
+  imageUrl: String!
+  description: String
+  shortUrl: String
   totalSupply: BigInt!
-
-  """
-  Quantity of the token that has been minted
-  """
   totalMinted: BigInt!
-
-  """
-  Quantity of the token that has been burned
-  """
   totalBurned: BigInt!
-
   assets: [Asset!] @derivedFrom(field: "token")
-
   accounts: [Account!] @derivedFrom(field: "token")
-
   createTimeStamp: BigInt!
 }
 
@@ -47,6 +23,9 @@ type Asset @entity {
   id: ID!
   assetId: BigInt!
   assetURL: String
+  gameId: String
+  categoryId: String
+  contentId: String
   currentOwner: Account!
   history: [AssetHistory!] @derivedFrom(field: "asset")
   token: Token!

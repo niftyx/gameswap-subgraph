@@ -1,9 +1,13 @@
 import { Token } from "../../generated/schema";
-import { Transfer, SetTokenURI } from "../../generated/Test721/Test721";
+import {
+  Transfer,
+  SetTokenData,
+  MetaDataChanged,
+} from "../../generated/templates/Test721/Test721";
 import { getOrCreateAccount, getOrCreateZeroAccount } from "../models/Account";
 import { getOrCreateAsset, loadAsset } from "../models/Asset";
 import { getOrCreateAssetHistory } from "../models/AssetHistory";
-import { getOrCreateToken } from "../models/Token";
+import { getToken, updateTokenMetaData } from "../models/Token";
 import { ONE } from "../utils/number";
 import { ZERO_ADDRESS } from "../utils/token";
 
@@ -99,26 +103,40 @@ function handleNormalTransfer(token: Token, event: Transfer): void {
   }
 }
 
-export function handleTokenURISet(event: SetTokenURI): void {
+export function handleTokenDataSet(event: SetTokenData): void {
   let asset = loadAsset(event.params.tokenId);
   if (asset) {
     asset.updateTimeStamp = event.block.timestamp;
     asset.assetURL = event.params.tokenURI;
+    asset.categoryId = event.params.categoryId;
+    asset.gameId = event.params.gameId;
+    asset.contentId = event.params.contentId;
     asset.save();
   }
 }
 
 export function handleTransfer(event: Transfer): void {
-  let token = getOrCreateToken(event.address, event.block.timestamp);
+  let token = getToken(event.address);
 
   let isMint = event.params.from.toHex() == ZERO_ADDRESS;
   let isBurn = event.params.to.toHex() == ZERO_ADDRESS;
 
-  if (isMint) {
-    handleMinted(token, event);
-  } else if (isBurn) {
-    handleBurnt(token, event);
-  } else {
-    handleNormalTransfer(token, event);
+  if (token !== null) {
+    if (isMint) {
+      handleMinted(token, event);
+    } else if (isBurn) {
+      handleBurnt(token, event);
+    } else {
+      handleNormalTransfer(token, event);
+    }
   }
+}
+
+export function handleMetaDataChanged(event: MetaDataChanged): void {
+  updateTokenMetaData(
+    event.address,
+    event.params.imageURL,
+    event.params.description,
+    event.params.shortUrl
+  );
 }

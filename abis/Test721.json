@@ -4,7 +4,33 @@
     {
       "stateMutability": "nonpayable",
       "type": "constructor",
-      "inputs": []
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_imageUrl",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_shortUrl",
+          "type": "string"
+        }
+      ]
     },
     {
       "anonymous": false,
@@ -58,7 +84,51 @@
     },
     {
       "anonymous": false,
-      "name": "SetTokenURI",
+      "name": "MetaDataChanged",
+      "type": "event",
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "imageURL",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "shortUrl",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "anonymous": false,
+      "name": "OwnershipTransferred",
+      "type": "event",
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "anonymous": false,
+      "name": "SetTokenData",
       "type": "event",
       "inputs": [
         {
@@ -71,6 +141,24 @@
           "indexed": false,
           "internalType": "string",
           "name": "tokenURI",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "gameId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "categoryId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "contentId",
           "type": "string"
         }
       ]
@@ -164,6 +252,19 @@
       "outputs": []
     },
     {
+      "name": "description",
+      "stateMutability": "view",
+      "type": "function",
+      "inputs": [],
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ]
+    },
+    {
       "name": "getApproved",
       "stateMutability": "view",
       "type": "function",
@@ -179,6 +280,19 @@
           "internalType": "address",
           "name": "",
           "type": "address"
+        }
+      ]
+    },
+    {
+      "name": "imageUrl",
+      "stateMutability": "view",
+      "type": "function",
+      "inputs": [],
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
         }
       ]
     },
@@ -220,6 +334,21 @@
           "internalType": "string",
           "name": "tokenURI",
           "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "gameId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "categoryId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "contentId",
+          "type": "string"
         }
       ],
       "outputs": [
@@ -244,6 +373,19 @@
       ]
     },
     {
+      "name": "owner",
+      "stateMutability": "view",
+      "type": "function",
+      "inputs": [],
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
       "name": "ownerOf",
       "stateMutability": "view",
       "type": "function",
@@ -261,6 +403,13 @@
           "type": "address"
         }
       ]
+    },
+    {
+      "name": "renounceOwnership",
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "inputs": [],
+      "outputs": []
     },
     {
       "name": "safeTransferFrom",
@@ -330,6 +479,19 @@
         }
       ],
       "outputs": []
+    },
+    {
+      "name": "shortUrl",
+      "stateMutability": "view",
+      "type": "function",
+      "inputs": [],
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ]
     },
     {
       "name": "supportsInterface",
@@ -457,6 +619,42 @@
           "internalType": "uint256",
           "name": "tokenId",
           "type": "uint256"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "transferOwnership",
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "updateMetaData",
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_imageUrl",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_shortUrl",
+          "type": "string"
         }
       ],
       "outputs": []

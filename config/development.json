@@ -2,8 +2,8 @@
   "network": "kovan",
   "address_gswap": "0xb2c7d27f78bec818391498dc4108ab782d65cd76",
   "startBlock_gswap": 22490477,
-  "address_erc721": "0x947161a5d422f95db832121b2946db5a616acf47",
-  "startBlock_erc721": 22511370,
+  "address_factory": "0x9aDc3531598cCdA3EDB14695f430d6CE31B6D4B4",
+  "startBlock_factory": 23288986,
   "address_exchange": "0x4eacd0af335451709e1e7b570b8ea68edec8bc97",
   "startBlock_exchange": 22435544
 }
