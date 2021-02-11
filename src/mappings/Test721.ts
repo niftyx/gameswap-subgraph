@@ -3,11 +3,16 @@ import {
   Transfer,
   SetTokenData,
   MetaDataChanged,
+  OwnershipTransferred,
 } from "../../generated/templates/Test721/Test721";
 import { getOrCreateAccount, getOrCreateZeroAccount } from "../models/Account";
 import { getOrCreateAsset, loadAsset } from "../models/Asset";
 import { getOrCreateAssetHistory } from "../models/AssetHistory";
-import { getToken, updateTokenMetaData } from "../models/Token";
+import {
+  getToken,
+  updateTokenMetaData,
+  updateTokenOwner,
+} from "../models/Token";
 import { ONE } from "../utils/number";
 import { ZERO_ADDRESS } from "../utils/token";
 
@@ -137,6 +142,11 @@ export function handleMetaDataChanged(event: MetaDataChanged): void {
     event.address,
     event.params.imageURL,
     event.params.description,
-    event.params.shortUrl
+    event.params.shortUrl,
+    event.block.timestamp
   );
+}
+
+export function handleOwnershipTransferred(event: OwnershipTransferred): void {
+  updateTokenOwner(event.address, event.params.newOwner, event.block.timestamp);
 }

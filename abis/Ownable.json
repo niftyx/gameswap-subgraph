@@ -1,0 +1,57 @@
+{
+  "contractName": "Ownable",
+  "abi": [
+    {
+      "anonymous": false,
+      "name": "OwnershipTransferred",
+      "type": "event",
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "name": "owner",
+      "stateMutability": "view",
+      "type": "function",
+      "inputs": [],
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "name": "renounceOwnership",
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "name": "transferOwnership",
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "outputs": []
+    }
+  ]
+}

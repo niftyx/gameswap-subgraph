@@ -74,6 +74,8 @@ templates:
           file: ./abis/IERC721.json
         - name: ERC721
           file: ./abis/ERC721.json
+        - name: Ownable
+          file: ./abis/Ownable.json
       eventHandlers:
         - event: SetTokenData(uint256,string,string,string,string)
           handler: handleTokenDataSet
@@ -81,3 +83,5 @@ templates:
           handler: handleTransfer
         - event: MetaDataChanged(string,string,string)
           handler: handleMetaDataChanged
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred

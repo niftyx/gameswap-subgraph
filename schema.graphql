@@ -11,12 +11,15 @@ type Token @entity {
   imageUrl: String!
   description: String
   shortUrl: String
+  owner: String!
   totalSupply: BigInt!
   totalMinted: BigInt!
   totalBurned: BigInt!
   assets: [Asset!] @derivedFrom(field: "token")
   accounts: [Account!] @derivedFrom(field: "token")
   createTimeStamp: BigInt!
+  updateTimeStamp: BigInt!
+  history: [TokenHistory!] @derivedFrom(field: "token")
 }
 
 type Asset @entity {
@@ -40,6 +43,13 @@ type AssetHistory @entity {
   asset: Asset!
   timestamp: BigInt!
   txHash: Bytes!
+}
+
+type TokenHistory @entity {
+  id: ID!
+  owner: String!
+  timestamp: BigInt!
+  token: Token!
 }
 
 type Account @entity {

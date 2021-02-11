@@ -10,8 +10,8 @@ dataSources:
     network: "kovan"
     source:
       abi: TestFactory
-      address: "0x3DcdA6b5158a51AE890354639F9414756D4967f2"
-      startBlock: 23293705
+      address: "0xdA8760eEA561d564fEafF5A180EB6712b2D2be94"
+      startBlock: 23325266
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -74,6 +74,8 @@ templates:
           file: ./abis/IERC721.json
         - name: ERC721
           file: ./abis/ERC721.json
+        - name: Ownable
+          file: ./abis/Ownable.json
       eventHandlers:
         - event: SetTokenData(uint256,string,string,string,string)
           handler: handleTokenDataSet
@@ -81,3 +83,5 @@ templates:
           handler: handleTransfer
         - event: MetaDataChanged(string,string,string)
           handler: handleMetaDataChanged
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred

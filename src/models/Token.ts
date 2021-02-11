@@ -1,7 +1,8 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts";
-import { Token } from "../../generated/schema";
+import { Token, TokenHistory } from "../../generated/schema";
 import { ERC721 } from "../../generated/templates/Test721/ERC721";
 import { ZERO } from "../utils/number";
+import { ZERO_ADDRESS } from "../utils/token";
 
 export function getToken(address: Address): Token {
   let token = Token.load(address.toHex());
@@ -33,7 +34,15 @@ export function upsertToken(
   token.totalMinted = ZERO;
   token.totalBurned = ZERO;
   token.createTimeStamp = timestamp;
+  token.owner = ZERO_ADDRESS;
+  token.updateTimeStamp = timestamp;
   token.save();
+
+  let tokenHistory = new TokenHistory(timestamp.toString());
+  tokenHistory.owner = ZERO_ADDRESS;
+  tokenHistory.timestamp = timestamp;
+  tokenHistory.token = token.id;
+  tokenHistory.save();
 
   return token;
 }
@@ -42,14 +51,38 @@ export function updateTokenMetaData(
   address: Address,
   imageURL: string,
   description: string,
-  shortUrl: string
+  shortUrl: string,
+  timestamp: BigInt
 ): Token {
   let token = Token.load(address.toHex());
   if (token != null) {
     token.imageUrl = imageURL;
     token.description = description;
     token.shortUrl = shortUrl;
+    token.updateTimeStamp = timestamp;
     token.save();
+    return token as Token;
+  }
+  return null;
+}
+
+export function updateTokenOwner(
+  address: Address,
+  owner: Address,
+  timestamp: BigInt
+): Token {
+  let token = Token.load(address.toHex());
+  if (token != null) {
+    token.owner = owner.toHex();
+    token.updateTimeStamp = timestamp;
+    token.save();
+
+    let tokenHistory = new TokenHistory(timestamp.toString());
+    tokenHistory.owner = owner.toHex();
+    tokenHistory.timestamp = timestamp;
+    tokenHistory.token = token.id;
+    tokenHistory.save();
+
     return token as Token;
   }
   return null;

@@ -80,17 +80,17 @@
         },
         {
           "internalType": "string",
-          "name": "_imageUrl",
+          "name": "imageUrl",
           "type": "string"
         },
         {
           "internalType": "string",
-          "name": "_description",
+          "name": "description",
           "type": "string"
         },
         {
           "internalType": "string",
-          "name": "_shortUrl",
+          "name": "shortUrl",
           "type": "string"
         }
       ],
