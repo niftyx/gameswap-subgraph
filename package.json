@@ -6,14 +6,11 @@
     "test": "yarn test",
     "codegen": "node ./scripts/codegen-prepare.js --input=./contracts/build/contracts --output=./abis && yarn graph codegen",
     "build": "yarn graph build",
-    "prepare:local": "mustache config/development.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:kovan": "mustache config/kovan.json subgraph.template.yaml > subgraph.yaml",
-    "prepare:mainnet": "mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml",
-    "create:local": "yarn graph create liaojikunwork/gameswap-subgraph --node http://127.0.0.1:8020",
-    "deploy:local": "yarn graph deploy liaojikunwork/gameswap-subgraph --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
-    "deploy:kovan": "yarn graph deploy liaojikunwork/gameswapsubgraphkovan --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token ab245ab70624402a9eb90c39badaae67",
-    "lint": "yarn run eslint './src/**/*.{ts,tsx}' --fix",
-    "deploy:mainnet": "yarn graph deploy liaojikunwork/gameswapsubgraph --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token ab245ab70624402a9eb90c39badaae67"
+    "prepare:fuji": "mustache config/fuji.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:avalanche": "mustache config/avalanche.json subgraph.template.yaml > subgraph.yaml",
+    "deploy:avalanche": "yarn graph deploy niftyx/gameswap --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token 492be42e731c47dbb9d61c6c2b913d15",
+    "deploy:fuji": "yarn graph deploy niftyx/gameswap-fuji --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token 492be42e731c47dbb9d61c6c2b913d15",
+    "lint": "yarn run eslint './src/**/*.{ts,tsx}' --fix"
   },
   "repository": {
     "type": "git",

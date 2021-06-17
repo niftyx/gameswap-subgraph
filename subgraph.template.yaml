@@ -1,30 +1,32 @@
 specVersion: 0.0.2
 description: gameswap
-repository: https://github.com/shroom-finance/gameswap-subgraph
+repository: https://github.com/niftyx/gameswap-subgraph
 schema:
   file: ./schema.graphql
 
 dataSources:
   - kind: ethereum/contract
-    name: TestFactory
+    name: Gswap721Factory
     network: "{{network}}"
     source:
-      abi: TestFactory
+      abi: Gswap721Factory
       address: "{{address_factory}}"
       startBlock: {{startBlock_factory}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
       language: wasm/assemblyscript
-      file: ./src/mappings/TestFactory.ts
+      file: ./src/mappings/Gswap721Factory.ts
       entities:
-        - Token
+        - Collection
+        - CollectionHistory
+        - User
       abis:
-        - name: TestFactory
-          file: ./abis/TestFactory.json
+        - name: Gswap721Factory
+          file: ./abis/Gswap721Factory.json
       eventHandlers:
-        - event: CollectionCreated(indexed address,string,string,string,string,string)
-          handler: handleNewToken
+        - event: CollectionCreated(indexed address,string,string,string,string,bool)
+          handler: handleNewCollection
 
   - kind: ethereum/contract
     name: Exchange
@@ -39,9 +41,10 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - ZeroXOrder
-        - Account
+        - User
         - Asset
-        - Token
+        - Collection
+        - AssetHistory
       abis:
         - name: Exchange
           file: ./abis/Exchange.json
@@ -53,35 +56,32 @@ dataSources:
       file: ./src/mappings/ZeroXExchange.ts
 templates:
   - kind: ethereum/contract
-    name: Test721
+    name: Gswap721
     network: "{{network}}"
     source:
-      abi: Test721
+      abi: Gswap721
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.3
       language: wasm/assemblyscript
-      file: ./src/mappings/Test721.ts
+      file: ./src/mappings/Gswap721.ts
       entities:
-        - Account
+        - User
         - Asset
         - AssetHistory
-        - Token
+        - Collection
+        - CollectionHistory
       abis:
-        - name: Test721
-          file: ./abis/Test721.json
+        - name: Gswap721
+          file: ./abis/Gswap721.json
         - name: IERC721
           file: ./abis/IERC721.json
-        - name: ERC721
-          file: ./abis/ERC721.json
         - name: Ownable
           file: ./abis/Ownable.json
       eventHandlers:
-        - event: SetTokenData(uint256,string,string,string,string)
-          handler: handleTokenDataSet
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-        - event: MetaDataChanged(string,string,string)
-          handler: handleMetaDataChanged
+        - event: VisibilityChanged(bool)
+          handler: handleVisibilityChanged
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred

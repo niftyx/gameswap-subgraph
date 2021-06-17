@@ -3,35 +3,33 @@ enum ZeroXOrderType {
   Cancelled
 }
 
-type Token @entity {
+type Collection @entity {
   id: ID!
   address: Bytes!
   name: String!
   symbol: String!
-  imageUrl: String!
-  description: String
-  shortUrl: String
-  owner: String!
+  infoUrl: String!
+  gameId: String!
+  ownerId: String!
+  owner: User!
   totalSupply: BigInt!
   totalMinted: BigInt!
   totalBurned: BigInt!
-  assets: [Asset!] @derivedFrom(field: "token")
-  accounts: [Account!] @derivedFrom(field: "token")
+  isPrivate: Boolean!
+  assets: [Asset!] @derivedFrom(field: "collection")
   createTimeStamp: BigInt!
   updateTimeStamp: BigInt!
-  history: [TokenHistory!] @derivedFrom(field: "token")
+  history: [CollectionHistory!] @derivedFrom(field: "collection")
 }
 
 type Asset @entity {
   id: ID!
   assetId: BigInt!
-  assetURL: String
-  gameId: String
-  categoryId: String
-  contentId: String
-  currentOwner: Account!
+  assetUrl: String
+  owner: User!
+  ownerId: String!
   history: [AssetHistory!] @derivedFrom(field: "asset")
-  token: Token!
+  collection: Collection!
   createTimeStamp: BigInt!
   updateTimeStamp: BigInt!
   orders: [ZeroXOrder!] @derivedFrom(field: "asset")
@@ -39,30 +37,43 @@ type Asset @entity {
 
 type AssetHistory @entity {
   id: ID!
-  owner: Account!
+  owner: User!
+  ownerId: String!
   asset: Asset!
   timestamp: BigInt!
   txHash: Bytes!
+  erc20: Bytes
+  erc20Amount: BigInt
 }
 
-type TokenHistory @entity {
+type CollectionHistory @entity {
   id: ID!
-  owner: String!
+  owner: User!
+  ownerId: String!
   timestamp: BigInt!
-  token: Token!
+  collection: Collection!
+  txHash: Bytes!
 }
 
-type Account @entity {
+type User @entity {
   id: ID!
   address: Bytes!
-  assets: [Asset!] @derivedFrom(field: "currentOwner")
   assetCount: BigInt!
-  token: Token!
+  collectionCount: BigInt!
   createTimeStamp: BigInt!
+  updateTimeStamp: BigInt!
+  assets: [Asset!] @derivedFrom(field: "owner")
+  collections: [Collection!] @derivedFrom(field: "owner")
+  makeOrders: [ZeroXOrder!] @derivedFrom(field: "makerUser")
+  takeOrders: [ZeroXOrder!] @derivedFrom(field: "takerUser")
+  sendOrders: [ZeroXOrder!] @derivedFrom(field: "senderUser")
 }
 
 type ZeroXOrder @entity {
   asset: Asset!
+  makerUser: User!
+  takerUser: User!
+  senderUser: User!
   id: ID! # orderHash (unqiue because of the salt)
   maker: Bytes!
   feeRecipient: Bytes!

@@ -1,8 +1,9 @@
+import { ERC721 } from "./../../generated/templates/Gswap721/ERC721";
 import { BigInt } from "@graphprotocol/graph-ts";
-import { Asset, Token, Account } from "../../generated/schema";
+import { Asset, Collection, User } from "../../generated/schema";
 
-export function loadAsset(tokenId: BigInt): Asset {
-  let assetId = tokenId.toHex();
+export function loadAsset(id: BigInt): Asset | null {
+  let assetId = id.toHex();
   let existingAsset = Asset.load(assetId);
 
   if (existingAsset != null) {
@@ -11,13 +12,13 @@ export function loadAsset(tokenId: BigInt): Asset {
   return null;
 }
 
-export function getOrCreateAsset(
-  tokenId: BigInt,
-  token: Token,
-  owner: Account,
+export function createAsset(
+  id: BigInt,
+  collection: Collection,
+  user: User,
   timestamp: BigInt
 ): Asset {
-  let assetId = tokenId.toHex();
+  let assetId = id.toHex();
   let existingAsset = Asset.load(assetId);
 
   if (existingAsset != null) {
@@ -25,14 +26,20 @@ export function getOrCreateAsset(
   }
 
   let newAsset = new Asset(assetId);
-  newAsset.assetId = tokenId;
-  newAsset.assetURL = "";
-  newAsset.token = token.id;
-  newAsset.currentOwner = owner.id;
+  newAsset.assetId = id;
+
+  let erc721 = ERC721.bind(collection.address);
+
+  newAsset.assetUrl = erc721.tokenURI(id);
+  newAsset.owner = user.id;
+  newAsset.ownerId = user.id;
+
+  newAsset.collection = collection.id;
+
   newAsset.createTimeStamp = timestamp;
   newAsset.updateTimeStamp = timestamp;
 
   newAsset.save();
 
-  return newAsset;
+  return newAsset as Asset;
 }

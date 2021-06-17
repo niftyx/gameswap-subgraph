@@ -1,0 +1,7 @@
+{
+  "network": "fuji",
+  "address_factory": "0x4c4FBB3098F008d7a74611B3B7B75A1046C7527E",
+  "startBlock_factory": 321482,
+  "address_exchange": "0xed72a76196839e2a2c77302bcf68eecc6f1783cc",
+  "startBlock_exchange": 212661
+}

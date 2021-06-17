@@ -1,0 +1,171 @@
+{
+  "contractName": "Gswap721Factory",
+  "abi": [
+    {
+      "anonymous": false,
+      "name": "CollectionCreated",
+      "type": "event",
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "url",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "gamdId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isPrivate",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "anonymous": false,
+      "name": "OwnershipTransferred",
+      "type": "event",
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "name": "allCollections",
+      "stateMutability": "view",
+      "type": "function",
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "name": "collectionsCount",
+      "stateMutability": "view",
+      "type": "function",
+      "inputs": [],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "name": "createGswap721",
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "url",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "gameId",
+          "type": "string"
+        },
+        {
+          "internalType": "bool",
+          "name": "isPrivate",
+          "type": "bool"
+        }
+      ],
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "name": "owner",
+      "stateMutability": "view",
+      "type": "function",
+      "inputs": [],
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ]
+    },
+    {
+      "name": "renounceOwnership",
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "inputs": [],
+      "outputs": []
+    },
+    {
+      "name": "transferOwnership",
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "outputs": []
+    }
+  ]
+}

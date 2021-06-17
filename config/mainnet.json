@@ -1,9 +1,0 @@
-{
-  "network": "mainnet",
-  "address_gswap": "0xaac41ec512808d64625576eddd580e7ea40ef8b2",
-  "startBlock_gswap": 11420560,
-  "address_factory": "0x9aDc3531598cCdA3EDB14695f430d6CE31B6D4B4",
-  "startBlock_factory": 23288986,
-  "address_exchange": "0x61935cbdd02287b511119ddb11aeb42f1593b7ef",
-  "startBlock_exchange": 22435544
-}

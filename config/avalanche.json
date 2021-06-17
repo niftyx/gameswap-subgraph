@@ -1,0 +1,7 @@
+{
+  "network": "avalanche",
+  "address_factory": "0x4bd0A8608cDdd0C321407433c4E9C44C80425a06",
+  "startBlock_factory": 208240,
+  "address_exchange": "0xed72a76196839e2a2c77302bcf68eecc6f1783cc",
+  "startBlock_exchange": 212661
+}

@@ -1,9 +1,9 @@
 import { BigInt, Bytes } from "@graphprotocol/graph-ts";
 
-import { Asset, Account, AssetHistory } from "../../generated/schema";
+import { Asset, User, AssetHistory } from "../../generated/schema";
 
 export function getOrCreateAssetHistory(
-  owner: Account,
+  owner: User,
   asset: Asset,
   timestamp: BigInt,
   txHash: Bytes
@@ -17,6 +17,7 @@ export function getOrCreateAssetHistory(
 
   let newHistory = new AssetHistory(historyId);
   newHistory.owner = owner.id;
+  newHistory.ownerId = owner.id;
   newHistory.asset = asset.id;
   newHistory.timestamp = timestamp;
   newHistory.txHash = txHash;
