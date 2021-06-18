@@ -1,9 +1,15 @@
 import { Fill, Cancel } from "../../generated/Exchange/Exchange";
 import { loadAsset } from "../models/Asset";
-import { Address, BigInt, ByteArray, Bytes } from "@graphprotocol/graph-ts";
+import {
+  Address,
+  BigInt,
+  ByteArray,
+  Bytes,
+  log,
+} from "@graphprotocol/graph-ts";
 import { createCancelOrder, createFillOrder } from "../models/ZeroXOrder";
-
-let ERC721ADDRESS = Address.fromHexString("0xB917795F6B1107F2635df03DF1F4A97c29959DD9");
+import { ERC20PROXYID, ERC721PROXYID } from "../utils/order";
+import { Asset } from "../../generated/schema";
 
 export function handleFill(event: Fill): void {
   let makerAssetData = event.params.makerAssetData;
@@ -12,14 +18,18 @@ export function handleFill(event: Fill): void {
   let makerAssetProxyId = makerAssetData.toHex().substr(0, 10);
   let takerAssetProxyId = takerAssetData.toHex().substr(0, 10);
 
-  if (
-    makerAssetProxyId === "0x02571792" &&
-    takerAssetProxyId === "0xf47261b0"
-  ) {
+  log.info("makerAssetProxyId: {} takerAssetProxyId:{}", [
+    makerAssetProxyId,
+    takerAssetProxyId,
+  ]);
+
+  if (makerAssetProxyId == ERC721PROXYID && takerAssetProxyId == ERC20PROXYID) {
     // it's ERC721 <-> ERC20 exchange
     let makerTokenAddress = Address.fromHexString(
       "0x" + makerAssetData.toHex().substr(10, 32)
     );
+
+    log.info("makerTokenAddress: {} ", [makerTokenAddress.toHex()]);
 
     //    if (makerTokenAddress === ERC721ADDRESS) {
     let assetIdHex = "0x" + makerAssetData.toHex().substr(42, 72);
@@ -28,8 +38,8 @@ export function handleFill(event: Fill): void {
     );
 
     let asset = loadAsset(assetId);
-    if (asset) {
-      createFillOrder(asset, event);
+    if (asset != null) {
+      createFillOrder(asset as Asset, event);
     }
     //    }
   }
@@ -42,26 +52,23 @@ export function handleCancel(event: Cancel): void {
   let makerAssetProxyId = makerAssetData.toHex().substr(0, 10);
   let takerAssetProxyId = takerAssetData.toHex().substr(0, 10);
 
-  if (
-    makerAssetProxyId === "0x02571792" &&
-    takerAssetProxyId === "0xf47261b0"
-  ) {
+  if (makerAssetProxyId == ERC721PROXYID && takerAssetProxyId == ERC20PROXYID) {
     // it's ERC721 <-> ERC20 exchange
 
     let makerTokenAddress = Address.fromHexString(
       "0x" + makerAssetData.toHex().substr(10, 32)
     );
 
-    if (makerTokenAddress === ERC721ADDRESS) {
-      let assetIdHex = "0x" + makerAssetData.toHex().substr(42, 72);
-      let assetId = BigInt.fromUnsignedBytes(
-        ByteArray.fromHexString(assetIdHex) as Bytes
-      );
+    //if (makerTokenAddress === ERC721ADDRESS) {
+    let assetIdHex = "0x" + makerAssetData.toHex().substr(42, 72);
+    let assetId = BigInt.fromUnsignedBytes(
+      ByteArray.fromHexString(assetIdHex) as Bytes
+    );
 
-      let asset = loadAsset(assetId);
-      if (asset) {
-        createCancelOrder(asset, event);
-      }
+    let asset = loadAsset(assetId);
+    if (asset != null) {
+      createCancelOrder(asset as Asset, event);
     }
+    //}
   }
 }

@@ -70,7 +70,7 @@ type User @entity {
 }
 
 type ZeroXOrder @entity {
-  asset: Asset!
+  asset: Asset
   makerUser: User!
   takerUser: User!
   senderUser: User!

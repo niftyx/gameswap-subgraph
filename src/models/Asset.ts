@@ -1,5 +1,5 @@
 import { ERC721 } from "./../../generated/templates/Gswap721/ERC721";
-import { BigInt } from "@graphprotocol/graph-ts";
+import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts";
 import { Asset, Collection, User } from "../../generated/schema";
 
 export function loadAsset(id: BigInt): Asset | null {
@@ -28,7 +28,9 @@ export function createAsset(
   let newAsset = new Asset(assetId);
   newAsset.assetId = id;
 
-  let erc721 = ERC721.bind(collection.address);
+  let erc721 = ERC721.bind(
+    Address.fromString(collection.address.toHexString())
+  );
 
   newAsset.assetUrl = erc721.tokenURI(id);
   newAsset.owner = user.id;

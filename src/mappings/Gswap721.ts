@@ -1,5 +1,5 @@
 import { Bytes } from "@graphprotocol/graph-ts";
-import { Collection } from "../../generated/schema";
+import { Asset, Collection } from "../../generated/schema";
 import {
   Transfer,
   VisibilityChanged,
@@ -60,7 +60,10 @@ function handleBurnt(collection: Collection, event: Transfer): void {
   user.save();
 
   let asset = loadAsset(event.params.tokenId);
-  let zeroUser = getOrCreateUser(Bytes.fromHexString(ZERO_ADDRESS), timestamp);
+  let zeroUser = getOrCreateUser(
+    Bytes.fromHexString(ZERO_ADDRESS) as Bytes,
+    timestamp
+  );
   if (asset) {
     asset.updateTimeStamp = event.block.timestamp;
     asset.owner = zeroUser.id;
@@ -68,7 +71,7 @@ function handleBurnt(collection: Collection, event: Transfer): void {
     asset.save();
     getOrCreateAssetHistory(
       user,
-      asset,
+      asset as Asset,
       event.block.timestamp,
       event.transaction.hash
     );
@@ -83,7 +86,7 @@ function handleNormalTransfer(collection: Collection, event: Transfer): void {
   if (asset) {
     getOrCreateAssetHistory(
       toAccount,
-      asset,
+      asset as Asset,
       event.block.timestamp,
       event.transaction.hash
     );

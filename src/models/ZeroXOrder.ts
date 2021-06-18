@@ -1,11 +1,26 @@
 import { Cancel, Fill } from "../../generated/Exchange/Exchange";
 import { Asset, ZeroXOrder } from "../../generated/schema";
 import { mapZeroXOrderType, ZeroXOrderType } from "../utils/enum";
+import { getOrCreateUser } from "./User";
 
 export function createFillOrder(asset: Asset, event: Fill): void {
   let params = event.params;
   let order = new ZeroXOrder(params.orderHash.toHex());
   order.asset = asset.id;
+
+  order.makerUser = getOrCreateUser(
+    event.params.makerAddress,
+    event.block.timestamp
+  ).id;
+  order.takerUser = getOrCreateUser(
+    event.params.takerAddress,
+    event.block.timestamp
+  ).id;
+  order.senderUser = getOrCreateUser(
+    event.params.senderAddress,
+    event.block.timestamp
+  ).id;
+
   order.type = mapZeroXOrderType(ZeroXOrderType.Filled);
   order.maker = params.makerAddress;
   order.feeRecipient = params.feeRecipientAddress;

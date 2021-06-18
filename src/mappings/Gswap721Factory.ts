@@ -10,7 +10,7 @@ export function handleNewCollection(event: CollectionCreated): void {
   let params = event.params;
 
   let user = getOrCreateUser(
-    Bytes.fromHexString(ZERO_ADDRESS),
+    Bytes.fromHexString(ZERO_ADDRESS) as Bytes,
     event.block.timestamp
   );
 
